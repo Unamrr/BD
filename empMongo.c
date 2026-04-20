@@ -23,3 +23,15 @@ db.emp.insert({"empno" : 7900, "ename" : " James","job" : "CLERK","mgr" : 7698, 
 db.emp.insert({"empno" : 7934, "ename" : " Miller","job" : "CLERK","mgr" : 7782, "hiredate" : "1982-01-23","sal" : 1300, "comm" : null, "deptno" : 10})
 > db.emp.find( {} )
 > db.dept.find( {} )
+
+
+
+  var deptNos = db.dept.find({ dname: " ACCOUNTING" }, { deptno: 1 }).map(d => d.deptno);
+db.emp.find({ deptno: { $in: deptNos } }, { empno: 1, _id: 0 })
+
+  db.emp.find({ sal: { $gt: 2500 } })
+
+  db.emp.find({ sal: { $gt: 3000 } }).forEach(emp => {
+  var dept = db.dept.findOne({ deptno: emp.deptno })
+  printjson({ deptno: dept?.deptno, dname: dept?.dname, ename: emp.ename, sal: emp.sal });
+})
