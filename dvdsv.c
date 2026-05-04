@@ -1,3 +1,32 @@
+3
+    ALTER TABLE employees ADD COLUMN department_id INTEGER;
+UPDATE employees SET department_id = 10 WHERE id = 1;
+UPDATE employees SET department_id = 20 WHERE id = 2;
+UPDATE employees SET department_id = 10 WHERE id = 3;-- Пытаемся назначить менеджера из другого отдела
+-- (сотрудник id=3 в отделе 10, менеджер id=2 в отделе 20)
+UPDATE employees SET manager = 2 WHERE id = 3;
+
+5 
+    ALTER TABLE employees ADD COLUMN job_id VARCHAR(20);
+ALTER TABLE employees ADD COLUMN hire_date DATE;
+
+UPDATE employees SET job_id = 'CLERK', hire_date = '2023-01-01' WHERE id = 1;
+UPDATE employees SET job_id = 'MANAGER', hire_date = '2022-06-15' WHERE id = 2;CREATE TABLE IF NOT EXISTS job_history (
+    employee_id INTEGER,
+    start_date DATE,
+    end_date DATE,
+    job_id VARCHAR(20),
+    department_id INTEGER
+);-- Посмотрим текущую историю для сотрудника id=1
+SELECT * FROM job_history WHERE employee_id = 1;
+
+-- Меняем должность
+UPDATE employees SET job_id = 'SENIOR_CLERK' WHERE id = 1;
+
+-- Смотрим, что добавилось в историю
+SELECT * FROM job_history WHERE employee_id = 1;
+
+
 CREATE OR REPLACE FUNCTION trg_employees_salary_check_func()
 RETURNS TRIGGER AS
 $$
